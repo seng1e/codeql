@@ -179,6 +179,14 @@ module CallGraph {
         result = cls.getADirectSuperClass().getConstructor()
       )
     )
+    or
+    // Handle functions accessed through an import
+    imprecision = 0 and
+    exists(ImportSpecifier spec, Function f |
+      spec.getImportedName() = node.getCalleeName() and
+      f = result.getFunction() and
+      f.getName() = spec.getImportedName()
+    )
   }
 
   /** Holds if a property setter named `name` exists in a class. */
